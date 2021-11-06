@@ -21,7 +21,7 @@ class Category
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=45)
+     * @ORM\Column(type="string", length=45, unique = true)
      */
     private $name;
 
