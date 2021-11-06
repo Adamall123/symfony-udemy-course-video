@@ -17,7 +17,7 @@ class FrontController extends AbstractController
         return $this->render('front/index.html.twig');
     }
     /**
-     * @Route("/video-list", name="video_list")
+     * @Route("/video-list/category/{categoryname},{id}", name="video_list")
      */
     public function videoList(): Response
     {
