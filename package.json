@@ -1,0 +1,17 @@
+{
+  "name": "symfony-udemy-course-video",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adam Wojdylo",
+  "license": "ISC",
+  "devDependencies": {
+    "@symfony/webpack-encore": "^1.6.1"
+  }
+}
