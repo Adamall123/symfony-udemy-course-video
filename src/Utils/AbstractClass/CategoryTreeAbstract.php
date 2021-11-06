@@ -10,6 +10,7 @@ abstract class CategoryTreeAbstract
 {
 
     public $categoriesArrayFromDb;
+    public $categoryList; 
     protected static $dbconnection; 
 
     public function __construct(EntityManagerInterface $entitymanager,
