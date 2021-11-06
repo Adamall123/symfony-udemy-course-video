@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping\Index as Index;
 
 /**
  * @ORM\Entity(repositoryClass=VideoRepository::class)
- * @ORM\Table(name="video", indexes={@Index(name="title_idx", columns={"title"})})
+ * @ORM\Table(name="videos", indexes={@Index(name="title_idx", columns={"title"})})
  */
 class Video
 {
