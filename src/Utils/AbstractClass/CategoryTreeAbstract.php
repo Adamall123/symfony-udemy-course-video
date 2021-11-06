@@ -2,6 +2,7 @@
 
 namespace App\Utils\AbstractClass;
 
+use App\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -30,12 +31,14 @@ abstract class CategoryTreeAbstract
         }
         else
         {
-            $conn = $this->entitymanager->getConnection(); 
-            $sql = "SELECT * FROM categories";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
+            // $conn = $this->entitymanager->getConnection(); 
+            // $sql = "SELECT * FROM categories";
+            // $stmt = $conn->prepare($sql);
+            // $stmt->execute();
 
-            return self::$dbconnection = $stmt->fetchAll();
+           // return $stmt->findAll();
+
+            return  self::$dbconnection = $this->entitymanager->getRepository(Category::class)->findAll();
         }
         
     }
