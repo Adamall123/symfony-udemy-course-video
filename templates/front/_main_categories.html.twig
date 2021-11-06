@@ -1,0 +1,6 @@
+
+<a class="p-2 text-dark" href="{{path('admin_main_page')}}">My account</a>
+
+{% for category in categories %}
+    <a class="p-2 text-dark" href="{{path('video_list')}}">{{category.name}}</a>
+{% endfor %}
