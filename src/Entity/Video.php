@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\VideoRepository;
+
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mappping\Index as Index; 
+use Doctrine\ORM\Mapping\Index as Index; 
+
 /**
  * @ORM\Entity(repositoryClass=VideoRepository::class)
  * @ORM\Table(name="videos", indexes={@Index(name="title_idx", columns-
