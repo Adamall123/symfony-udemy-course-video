@@ -23,8 +23,9 @@ class CategoryTreeFrontPage extends CategoryTreeAbstract
         $this->mainParentName  = $parentData['name']; //for accessing in view
         $this->mainParentId  = $parentData['id']; //for accessing in view
         // dump($this->mainParentName); exit;
-        $key = array_search($id, array_column($this->categoriesArrayFromDb, 'id'));
-        $this->currentCategoryName = $this->categoriesArrayFromDb[$key]->getName();
+        // $key = array_search($id, array_column($this->categoriesArrayFromDb, 'id'));
+        $whichElementOfArray = $this->getPositionOfSelectedCategoryName($id);
+        $this->currentCategoryName = $this->categoriesArrayFromDb[$whichElementOfArray]->getName();
 
         $categories_array = $this->buildTree($parentData['id']);
         //array for generating nested html list
@@ -55,14 +56,7 @@ class CategoryTreeFrontPage extends CategoryTreeAbstract
     {
         // dump($id);
         // dump($this->categoriesArrayFromDb); 
-        $whichElementOfArray = 0;
-        foreach($this->categoriesArrayFromDb as $category)
-        {   
-            if($category->getId() === $id) {
-               break;
-            }
-            $whichElementOfArray++;
-        }
+        $whichElementOfArray = $this->getPositionOfSelectedCategoryName($id);
         // dump($this->categoriesArrayFromDb[$whichElementOfArray]->getName()); exit;
         if($this->categoriesArrayFromDb[$whichElementOfArray]->getParent() !== null)
         {
@@ -75,5 +69,18 @@ class CategoryTreeFrontPage extends CategoryTreeAbstract
                 'name' => $this->categoriesArrayFromDb[$whichElementOfArray]->getName()
             ];
         }
+    }
+
+    private function getPositionOfSelectedCategoryName(int $id): int
+    {
+        $whichElementOfArray = 0;
+        foreach($this->categoriesArrayFromDb as $category)
+        {   
+            if($category->getId() === $id) {
+               return $whichElementOfArray;
+            }
+            $whichElementOfArray++;
+        }
+        return $whichElementOfArray;
     }
 }
