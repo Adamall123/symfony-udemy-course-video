@@ -60,5 +60,14 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/edit_category.html.twig');
     }
-   
+    /**
+     * @Route("/delete-category/{id}", name="delete_category")
+     */
+    public function deleteCategory(Category $category) //automatically find object by id 
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($category);
+        $entityManager->flush();
+        return $this->redirectToRoute('categories');
+    }
 }
