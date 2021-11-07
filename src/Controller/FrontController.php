@@ -19,14 +19,14 @@ class FrontController extends AbstractController
         return $this->render('front/index.html.twig');
     }
     /**
-     * @Route("/video-list/category/{categoryname},{id}", name="video_list")
+     * @Route("/video-list/category/{categoryname},{id}/{page}", defaults={"page": "1"} , name="video_list")
      */
-    public function videoList($id, CategoryTreeFrontPage $categories): Response
+    public function videoList($id, $page, CategoryTreeFrontPage $categories): Response
     {
         //$subcategories = $categories->buildTree($id);
         //dump($subcategories); 
         $categories->getCategoryListAndParent($id);
-        $videos = $this->getDoctrine()->getRepository(Video::class)->findAll();
+        $videos = $this->getDoctrine()->getRepository(Video::class)->findAllPaginated($page);
         // dump($categories->getCategoryListAndParent($id));
         // exit;
         return $this->render('front/video_list.html.twig',[
