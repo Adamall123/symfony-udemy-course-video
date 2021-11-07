@@ -83,4 +83,20 @@ class CategoryTreeFrontPage extends CategoryTreeAbstract
         }
         return $whichElementOfArray;
     }
+    public function getChildIds(int $parent): array
+    {
+        static $ids = [];
+
+        foreach($this->categoriesArrayFromDb as $val)
+        {
+            $valId = $val->getParent() ? $val->getParent()->getId(): null;
+            if($valId == $parent)
+            {
+                $ids[] = $val->getId() . ',';
+                $this->getChildIds($val->getId());
+            }
+
+        }
+        return $ids;
+    }
 }
