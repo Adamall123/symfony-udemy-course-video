@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
+use App\Utils\CategoryTreeAdminList;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,9 +23,14 @@ class AdminController extends AbstractController
     /**
      * @Route("/categories", name="categories")
      */
-    public function categories(): Response
+    public function categories(CategoryTreeAdminList $categories): Response
     {
-        return $this->render('admin/categories.html.twig');
+        
+        $categories->getCategoryList($categories->buildTree());
+        //dump($categories->categoryList); exit;
+        return $this->render('admin/categories.html.twig',[
+            'categories' => $categories->categoryList
+        ]);
     }
     /**
      * @Route("/upload_video", name="upload_video")
@@ -53,4 +60,5 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/edit_category.html.twig');
     }
+   
 }
