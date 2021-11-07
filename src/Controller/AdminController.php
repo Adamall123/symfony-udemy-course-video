@@ -55,11 +55,13 @@ class AdminController extends AbstractController
         return $this->render('admin/videos.html.twig');
     }
     /**
-     * @Route("/edit-category", name="edit_category")
+     * @Route("/edit-category/{id}", name="edit_category")
      */
-    public function editCategroy(): Response
+    public function editCategroy(Category $category): Response //param converter symfony 
     {
-        return $this->render('admin/edit_category.html.twig');
+        return $this->render('admin/edit_category.html.twig',[
+            'category' => $category
+        ]);
     }
     /**
      * @Route("/delete-category/{id}", name="delete_category")
@@ -72,11 +74,13 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('categories');
     }
 
-    public function getAllCategories(CategoryTreeAdminOptionList $categories)
+    public function getAllCategories(CategoryTreeAdminOptionList $categories,
+    $editedCategory = null)
     {
         $categories->getCategoryList($categories->buildTree());
         return $this->render('admin/_all_categories.html.twig',[
-            'categories' => $categories
+            'categories' => $categories,
+            'editedCategory' => $editedCategory
         ]);
     }
 }
