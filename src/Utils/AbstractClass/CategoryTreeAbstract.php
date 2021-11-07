@@ -86,11 +86,13 @@ abstract class CategoryTreeAbstract
             // dump($this->categoriesArrayFromDb); exit;
             // dump($category->getName());
             // dump($category->getParent());
-            if($category->getParent() !== null)
-            {
-                if($category->getParent()->getId() === $parent_id)
+            // $subcategory[] = $category; 
+            $categoryId = $category->getParent() ? $category->getParent()->getId(): null;
+           // dump($category);
+            //if($category->getParent() !== null)
+           // {
+                if($categoryId == $parent_id)
                 {
-                    
                     $children = $this->buildTree($category->getId());
                     if($children)
                     {
@@ -98,7 +100,7 @@ abstract class CategoryTreeAbstract
                     }
                     $subcategory[] = $category; 
                 }
-            }
+            //}
             
         }
         return $subcategory;
