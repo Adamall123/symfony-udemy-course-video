@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Form\CategoryType;
 use App\Utils\CategoryTreeAdminList;
 use App\Utils\CategoryTreeAdminOptionList;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 /**
@@ -22,15 +24,26 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/categories", name="categories")
+     * @Route("/categories", name="categories", methods={"GET","POST"})
      */
-    public function categories(CategoryTreeAdminList $categories): Response
+    public function categories(CategoryTreeAdminList $categories, Request $request): Response
     {
-        
+        //$request object is for handlign data with get and post 
         $categories->getCategoryList($categories->buildTree());
+
+        $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            //save category
+            dd('valid');
+        }
         //dump($categories->categoryList); exit;
         return $this->render('admin/categories.html.twig',[
-            'categories' => $categories->categoryList
+            'categories' => $categories->categoryList,
+            'form' => $form->createView()
         ]);
     }
     /**
