@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Table(name="users")
  * @UniqueEntity("email")
@@ -41,8 +43,8 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @Assert\NotBlank(message = "Valid first name is required.")
      * @ORM\Column(type="string", length=45)
+     * @Assert\NotBlank(message = "Valid first name is required.")
      */
     private $name;
 
@@ -55,7 +57,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $vimeo_api_key;
+    private $video_api_key;
 
     public function getId(): ?int
     {
@@ -162,14 +164,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getVimeoApiKey(): ?string
+    public function getVideoApiKey(): ?string
     {
-        return $this->vimeo_api_key;
+        return $this->video_api_key;
     }
 
-    public function setVimeoApiKey(?string $vimeo_api_key): self
+    public function setVideoApiKey(?string $video_api_key): self
     {
-        $this->vimeo_api_key = $vimeo_api_key;
+        $this->video_api_key = $video_api_key;
 
         return $this;
     }

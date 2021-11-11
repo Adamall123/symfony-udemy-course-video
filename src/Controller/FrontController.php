@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class FrontController extends AbstractController
 {
@@ -28,7 +29,8 @@ class FrontController extends AbstractController
         $categories->getCategoryListAndParent($id);
         $ids = $categories->getChildIds($id);
         array_push($ids, $id);
-        $videos = $this->getDoctrine()->getRepository(Video::class)->findByChildIds($ids ,$page, $request->get('sortby'));
+        $videos = $this->getDoctrine()->getRepository(Video::class);
+        $videos->findByChildIds($ids ,$page, $request->get('sortby'));
         // dump($categories->getCategoryListAndParent($id));
         // exit;
         return $this->render('front/video_list.html.twig',[
@@ -73,9 +75,18 @@ class FrontController extends AbstractController
      /**
      * @Route("/login", name="login")
      */
-    public function login(): Response
+    public function login(AuthenticationUtils $helper): Response
     {
-        return $this->render('front/login.html.twig');
+        return $this->render('front/login.html.twig',[
+            'error' => $helper->getLastAuthenticationError()
+        ]);
+    }
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logout(): void
+    {
+       throw new \Exception('This should nevere be reeached!');
     }
 
      /**
