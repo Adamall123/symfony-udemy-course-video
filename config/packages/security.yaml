@@ -3,6 +3,7 @@ security:
         App\Entity\User:
             algorithm: auto
 
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
@@ -10,6 +11,7 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -17,7 +19,21 @@ security:
         main:
             anonymous: lazy
             provider: app_user_provider
-
+            
+            form_login:
+                check_path: login
+                login_path: login
+                #csrf_token_generator: security.csrf.token_manager
+                default_target_path: admin_main_page
+                username_parameter: _email
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            logout:
+                path: logout
+                target: main_page
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
