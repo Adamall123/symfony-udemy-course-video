@@ -24,7 +24,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/categories", name="categories", methods={"GET","POST"})
+     * @Route("/su/categories", name="categories", methods={"GET","POST"})
      */
     public function categories(CategoryTreeAdminList $categories, Request $request): Response
     {
@@ -53,14 +53,14 @@ class AdminController extends AbstractController
         ]);
     }
     /**
-     * @Route("/upload_video", name="upload_video")
+     * @Route("/su/upload_video", name="upload_video")
      */
     public function upload_video(): Response
     {
         return $this->render('admin/upload_video.html.twig');
     }
     /**
-     * @Route("/users", name="users")
+     * @Route("/su/users", name="users")
      */
     public function users(): Response
     {
@@ -74,7 +74,7 @@ class AdminController extends AbstractController
         return $this->render('admin/videos.html.twig');
     }
     /**
-     * @Route("/edit-category/{id}", name="edit_category", methods={"GET","POST"})
+     * @Route("/su/edit-category/{id}", name="edit_category", methods={"GET","POST"})
      */
     public function editCategroy(Category $category, Request $request): Response //param converter symfony 
     {
@@ -96,7 +96,7 @@ class AdminController extends AbstractController
         ]);
     }
     /**
-     * @Route("/delete-category/{id}", name="delete_category")
+     * @Route("/su/delete-category/{id}", name="delete_category")
      */
     public function deleteCategory(Category $category) //automatically find object by id 
     {
@@ -109,6 +109,8 @@ class AdminController extends AbstractController
     public function getAllCategories(CategoryTreeAdminOptionList $categories,
     $editedCategory = null)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $categories->getCategoryList($categories->buildTree());
         return $this->render('admin/_all_categories.html.twig',[
             'categories' => $categories,
