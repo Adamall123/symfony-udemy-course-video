@@ -29,8 +29,7 @@ class FrontController extends AbstractController
         $categories->getCategoryListAndParent($id);
         $ids = $categories->getChildIds($id);
         array_push($ids, $id);
-        $videos = $this->getDoctrine()->getRepository(Video::class);
-        $videos->findByChildIds($ids ,$page, $request->get('sortby'));
+        $videos = $this->getDoctrine()->getRepository(Video::class)->findByChildIds($ids ,$page, $request->get('sortby'));
         // dump($categories->getCategoryListAndParent($id));
         // exit;
         return $this->render('front/video_list.html.twig',[
