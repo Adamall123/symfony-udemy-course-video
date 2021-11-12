@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Video;
 use App\Utils\CategoryTreeFrontPage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -137,6 +138,30 @@ class FrontController extends AbstractController
         return $this->render('front/payment.html.twig');
     }
 
+    /**
+     * @Route("/new-comment/{video}", methods={"POST"}, name="new_comment")
+    */
+    public function newComment(Video $video, Request $request )
+     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
+        
+        if ( !empty( trim($request->request->get('comment')) ) ) 
+        {   
+
+            // $video = $this->getDoctrine()->getRepository(Video::class)->find($video_id);
+        
+            $comment = new Comment();
+            $comment->setContent($request->request->get('comment'));
+            $comment->setUser($this->getUser());
+            $comment->setVideo($video);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+        }
+        
+        return $this->redirectToRoute('video_details',['video'=>$video->getId()]);
+     }
     public function mainCategories()
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findBy(['parent' => null], ['name'=>'ASC']);
