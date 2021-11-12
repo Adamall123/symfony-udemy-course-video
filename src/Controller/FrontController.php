@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\VideoRepository;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -44,11 +45,14 @@ class FrontController extends AbstractController
     }
 
     /**
-     * @Route("/video-details", name="video_details")
+     * @Route("/video-details/{video}", name="video_details")
      */
-    public function videoDetails(): Response
+    public function videoDetails(VideoRepository $repo, $video): Response
     {
-        return $this->render('front/video_details.html.twig');
+        dump($repo->videoDetails($video));
+        return $this->render('front/video_details.html.twig',[
+            'video' => $repo->videoDetails($video)
+        ]);
     }
 
     /**
