@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block main %}
+{% block customstylesheets %}
+{{parent()}}
+{% if app.user %}
+<link rel="stylesheet" href="{{asset('assets/css/likes.css')}}">
+{% endif %}
+{% endblock %}
 
+{% block main %}
 
 <main role="main">
 
@@ -17,30 +23,25 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <ul class="mr-5">
-                        <li><a href="{{path('video_list',{'categoryname':subcategories.mainParentName|slugify|lower, 'id':subcategories.mainParentId})}}">{{subcategories.mainParentName}}
-                        </a></li>
-                           {{subcategories.categoryList|raw}}
+                        <li><a href="{{path('video_list',{'categoryname':subcategories.mainParentName|slugify|lower, 'id':subcategories.mainParentId})}}">{{subcategories.mainParentName}}</a></li>
+                           {{subcategories.categorylist|raw}}
                         </ul>
                     </div>
                 </div>
 
-                <div class="form-row align-items-center ml-3">
-                    {{ include('front/includes/_sort.html.twig') }}
-                </div>
+            {{ include('front/includes/_sort.html.twig') }}
+                
             </div>
         </div>
     </section>
 
-    <div class="album py-5 bg-light">
-        <div class="container">
-            {{ include('front/includes/_videos.html.twig', {'videos' : videos}) }}
-            
-        </div>
-    </div>
-
-    
+    {{ include('front/includes/_videos.html.twig', {'videos' : videos}) }}
     {{ knp_pagination_render(videos) }}
-
 </main>
-
+{% endblock %}
+{% block customjavascripts %}
+{{parent()}}
+{% if app.user %}
+<script src="{{asset('assets/js/likes.js')}}"></script>
+{% endif %}
 {% endblock %}

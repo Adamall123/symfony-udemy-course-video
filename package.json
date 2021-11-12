@@ -13,5 +13,8 @@
   "license": "ISC",
   "devDependencies": {
     "@symfony/webpack-encore": "^1.6.1"
+  },
+  "dependencies": {
+    "core-js": "^3.19.1"
   }
 }
