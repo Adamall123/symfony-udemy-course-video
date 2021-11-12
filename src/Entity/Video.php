@@ -15,6 +15,8 @@ use Doctrine\ORM\Mapping\Index as Index;
  */
 class Video
 {
+    public const videoForNotLoggedIn = 113716040; //vimeo id
+    public const VimeoPath = 'https://player.vimeo.com/video/';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -74,6 +76,14 @@ class Video
         return $this->path;
     }
 
+    public function getVimeoid($user): ?string
+    {
+        if($user)
+        {
+            return $this->path;
+        }
+        else return self::VimeoPath.self::videoForNotLoggedIn;
+    }
     public function setPath(string $path): self
     {
         $this->path = $path;
