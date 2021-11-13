@@ -29,7 +29,11 @@ class AdminController extends AbstractController
         $is_invalid = null; 
         if($form->isSubmitted() && $form->isValid())
         {
-            exit('valid');
+           $this->addFlash(
+               'success',
+               'Your changes were saved'
+           );
+           return $this->redirectToRoute('admin_main_page');
         }
 
         return $this->render('admin/my_profile.html.twig',[
