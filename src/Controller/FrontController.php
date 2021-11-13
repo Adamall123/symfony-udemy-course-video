@@ -18,6 +18,10 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Utils\VideoForNoValidSubscription;
 
+
+use App\Entity\Subscription;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 class FrontController extends AbstractController
 {
     /**
@@ -69,10 +73,16 @@ class FrontController extends AbstractController
      
 
       /**
-     * @Route("/register", name="register")
+     * @Route("/register/{plan}", name="register", defaults={"plan": null})
      */
-    public function register(Request $request, UserPasswordEncoderInterface $password_encoder): Response
+    public function register(Request $request, UserPasswordEncoderInterface $password_encoder, SessionInterface $session, $plan): Response
     {
+        if($request->isMethod('GET'))
+        {
+            $session->set('planName',$plan);
+            $session->set('planPrice', Subscription::getPlanDataPriceByName($plan));
+            
+        }
         $user = new User; 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
