@@ -110,7 +110,7 @@ class AdminController extends AbstractController
         ]);
     }
     /**
-     * @Route("/su/upload-video-locally", name="upload_video")
+     * @Route("/su/upload-video-locally", name="upload_video_locally")
      */
     public function uploadVideoLocally(Request $request, LocalUploader $fileUploader ): Response
     {
