@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use App\Form\UserType;
 /**
      * @Route("/admin")
      */
@@ -19,10 +21,20 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="admin_main_page")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $form = $this->createForm(UserType::class);
+        $form->handleRequest($request);
+        $is_invalid = null; 
+        if($form->isSubmitted() && $form->isValid())
+        {
+            exit('valid');
+        }
+
         return $this->render('admin/my_profile.html.twig',[
-            'subscription' => $this->getUser()->getSubscription()
+            'subscription' => $this->getUser()->getSubscription(),
+            'form' => $form->createView(),
+            'is_invalid' => $is_invalid
         ]);
     }
     /**
