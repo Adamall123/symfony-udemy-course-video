@@ -137,13 +137,7 @@ class FrontController extends AbstractController
        throw new \Exception('This should nevere be reeached!');
     }
 
-     /**
-     * @Route("/payment", name="payment")
-     */
-    public function payment(): Response
-    {
-        return $this->render('front/payment.html.twig');
-    }
+    
 
     /**
      * @Route("/new-comment/{video}", methods={"POST"}, name="new_comment")
