@@ -159,4 +159,18 @@ class AdminController extends AbstractController
         }
         return false; 
     }
+
+    /**
+     * @Route("/delete-account", name="delete_account")
+     */
+    public function deleteAccount() //automatically find object by id 
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        session_destroy();
+        return $this->redirectToRoute('main_page');
+    }
 }
