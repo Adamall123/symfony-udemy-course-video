@@ -22,8 +22,11 @@ use App\Utils\VideoForNoValidSubscription;
 use App\Entity\Subscription;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+use App\Controller\Traits\SaveSubscription;
+
 class FrontController extends AbstractController
 {
+    use SaveSubscription; 
     /**
      * @Route("/", name="main_page")
      */
@@ -108,7 +111,7 @@ class FrontController extends AbstractController
                 $subscription->setPaymentStatus('paid');
             }
             $user->setSubscription($subscription);
-            
+
             $entityManager->persist($user);
             $entityManager->flush();
             $this->loginUserAutomatically($user, $password);
@@ -118,7 +121,7 @@ class FrontController extends AbstractController
         if($this->isGranted('IS_AUTHENTICATED_REMEMBERED') && $plan == 
             Subscription::getPlanDataNameByIndex(0)) //free plan
             {
-                //to do save subscription
+                $this->saveSubscription($plan, $this->getUser());
                 return $this->redirectToRoute('admin_main_page');
             }
             elseif($this->isGranted('IS_AUTHENTICATED_REMEMBERED'))
