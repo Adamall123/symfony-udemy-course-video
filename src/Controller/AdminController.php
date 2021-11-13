@@ -18,7 +18,7 @@ use App\Form\UserType;
 use App\Entity\Video;
 use App\Form\VideoType;
 
-use App\Utils\LocalUploader;
+use App\Utils\Interfaces\UploadInterface;
 /**
      * @Route("/admin")
      */
@@ -112,7 +112,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/su/upload-video-locally", name="upload_video_locally")
      */
-    public function uploadVideoLocally(Request $request, LocalUploader $fileUploader ): Response
+    public function uploadVideoLocally(Request $request, UploadInterface $fileUploader ): Response
     {
         $video = new Video(); 
         $form = $this->createForm(VideoType::class, $video);

@@ -2,11 +2,12 @@
 
 namespace App\Utils;
 
+use App\Utils\Interfaces\UploadInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class LocalUploader
+class LocalUploader implements UploadInterface
 {
     private $targetDirectory; 
 

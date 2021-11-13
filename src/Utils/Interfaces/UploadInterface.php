@@ -2,8 +2,9 @@
 
 namespace App\Utils\Interfaces; 
 
-interface UploaderInterface {
+interface UploadInterface {
 
     public function upload($file);
+
     public function delete($path);
 }
