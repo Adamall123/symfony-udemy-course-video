@@ -20,15 +20,15 @@
 {# <form class="mt-5" method="POST" action="#"> #}
 {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
 {% if is_granted('ROLE_ADMIN') %}
-    {# <div class="form-group"> #}
+    <div class="form-group">
         {# <label for="vimeoapikey">Vimeo API key</label> #}
         {# <input required type="text" class="form-control is-invalid" id="vimeoapikey" placeholder="Enter api key"> #}
         {# <div class="invalid-feedback">
             Please provide api key
         </div> #}
-        {# <label for="user_vimeo_api_key">Vimeo API key</label>
-        {{ form_widget(form.vimeo_api_key) }}
-    </div> #}
+        <label for="user_video_api_key">Vimeo API key</label>
+        {{ form_widget(form.video_api_key) }}
+    </div>
 {% endif %}
     <div class="form-group">
         {# <label for="name">Name</label>
@@ -37,7 +37,7 @@
             Please provide your name
         </div> #}
         <label for "user_name">Name</label>
-        {{ form_widget(form.name, {'attr':{'class': is_invalid, 'value': app.user.name}}) }}
+        {{ form_widget(form.name, {'attr':{'class': is_invalid}}) }}
          <div class="invalid-feedback">
             {{form_errors(form.name)}}
          </div>
@@ -49,7 +49,7 @@
             Please provide your last name
         </div> #}
         <label for "user_last_name">Last name</label>
-         {{ form_widget(form.last_name, {'attr':{'class': is_invalid, 'value': app.user.lastName}}) }}
+         {{ form_widget(form.last_name, {'attr':{'class': is_invalid}}) }}
          <div class="invalid-feedback">
             {{form_errors(form.last_name)}}
         </div>
@@ -61,7 +61,7 @@
             Please provide valid email address
         </div> #}
         <label for "user_email">Email address</label>
-        {{ form_widget(form.email, {'attr':{'class': is_invalid, 'value': app.user.email}}) }}
+        {{ form_widget(form.email, {'attr':{'class': is_invalid}}) }}
          <div class="invalid-feedback">
             {{form_errors(form.email)}}
         </div>
