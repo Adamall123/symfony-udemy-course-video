@@ -2,17 +2,53 @@
 
 namespace App\Entity;
 
-use App\Repository\SubscriptionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=SubscriptionRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\SubscriptionRepository")
+ * @ORM\Table(name="subscriptions")
  */
 class Subscription
 {
+   
+    private static $planDataNames = ['free','pro','enterprise'];
+
+    
+    private static $planDataPrices = [
+
+        'free' => 0, // 0$
+        'pro' => 15, // 15$
+        'enterprise' => 29, // 29$
+
+    ];
+
+   
+    public static function getPlanDataNameByIndex(int $index): string
+    {
+        return self::$planDataNames[$index];
+    }
+
+   
+    public static function getPlanDataPriceByName(string $name): int
+    {
+        return self::$planDataPrices[$name];
+    }
+
+    
+    public static function getPlanDataNames(): array
+    {
+        return self::$planDataNames;
+    }
+
+   
+    public static function getPlanDataPrices(): array
+    {
+        return self::$planDataPrices;
+    }
+
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -33,7 +69,7 @@ class Subscription
     private $payment_status;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $free_plan_used;
 
@@ -83,7 +119,7 @@ class Subscription
         return $this->free_plan_used;
     }
 
-    public function setFreePlanUsed(bool $free_plan_used): self
+    public function setFreePlanUsed(?bool $free_plan_used): self
     {
         $this->free_plan_used = $free_plan_used;
 
