@@ -151,7 +151,11 @@ class AdminController extends AbstractController
      */
     public function videos(): Response
     {
-        return $this->render('admin/videos.html.twig');
+        $repository = $this->getDoctrine()->getRepository(Video::class);
+        $videos = $repository->findBy([], ['title' => 'ASC']);
+        return $this->render('admin/videos.html.twig',[
+            'videos' => $videos
+        ]);
     }
     /**
      * @Route("/su/edit-category/{id}", name="edit_category", methods={"GET","POST"})
