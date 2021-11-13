@@ -15,6 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use App\Form\UserType;
+use App\Entity\Video;
+use App\Form\VideoType;
 /**
      * @Route("/admin")
      */
@@ -106,11 +108,32 @@ class AdminController extends AbstractController
         ]);
     }
     /**
-     * @Route("/su/upload_video", name="upload_video")
+     * @Route("/su/upload-video-locally", name="upload_video")
      */
-    public function upload_video(): Response
+    public function uploadVideoLocally(Request $request): Response
     {
-        return $this->render('admin/upload_video.html.twig');
+        $video = new Video(); 
+        $form = $this->createForm(VideoType::class, $video);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $file = $video->getUploadedVideo();
+            $fileName = 'to do';
+
+            $base_path = Video::uploadFolder;
+            $video->setPath($base_path.$fileName);
+            $video->setTitle($fileName);
+
+            $entityManager->persist($video);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('videos');
+        }
+        return $this->render('admin/upload_video_locally.html.twig',[
+            'form' => $form->createView()
+        ]);
     }
     /**
      * @Route("/su/users", name="users")
