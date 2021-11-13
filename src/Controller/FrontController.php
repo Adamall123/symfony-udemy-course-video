@@ -16,6 +16,7 @@ use App\Form\UserType;
 use App\Repository\VideoRepository;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Utils\VideoForNoValidSubscription;
 
 class FrontController extends AbstractController
 {
@@ -29,9 +30,9 @@ class FrontController extends AbstractController
     /**
      * @Route("/video-list/category/{categoryname},{id}/{page}", defaults={"page": "1"} , name="video_list")
      */
-    public function videoList($id, $page, CategoryTreeFrontPage $categories, Request $request): Response
+    public function videoList($id, $page, CategoryTreeFrontPage $categories, 
+    Request $request, VideoForNoValidSubscription $video_no_members): Response
     {
-        
         $categories->getCategoryListAndParent($id);
         $ids = $categories->getChildIds($id);
         array_push($ids, $id);
@@ -41,17 +42,19 @@ class FrontController extends AbstractController
         return $this->render('front/video_list.html.twig',[
             //'subcategories' => $categories->getCategoryList($subcategories)
             'subcategories' => $categories,
-            'videos' => $videos
+            'videos' => $videos,
+            'video_no_members' => $video_no_members->check()
         ]);
     }
 
     /**
      * @Route("/video-details/{video}", name="video_details")
      */
-    public function videoDetails(VideoRepository $repo, $video): Response
+    public function videoDetails(VideoRepository $repo, $video,VideoForNoValidSubscription $video_no_members): Response
     {
         return $this->render('front/video_details.html.twig',[
-            'video' => $repo->videoDetails($video)
+            'video' => $repo->videoDetails($video),
+            'video_no_members' => $video_no_members->check()
         ]);
     }
 
