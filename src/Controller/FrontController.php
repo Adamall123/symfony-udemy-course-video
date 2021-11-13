@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 use App\Controller\Traits\SaveSubscription;
 
-use App\Utils\LocalUploader;
+
 
 class FrontController extends AbstractController
 {
@@ -42,12 +42,12 @@ class FrontController extends AbstractController
     public function videoList($id, $page, CategoryTreeFrontPage $categories, 
     Request $request, VideoForNoValidSubscription $video_no_members): Response
     {
-        $categories->getCategoryListAndParent($id);
+        
         $ids = $categories->getChildIds($id);
         array_push($ids, $id);
         $videos = $this->getDoctrine()->getRepository(Video::class)->findByChildIds($ids ,$page, $request->get('sortby'));
-        // dump($categories->getCategoryListAndParent($id));
-        // exit;
+        $categories->getCategoryListAndParent($id);
+        //  dump($categories); exit;
         return $this->render('front/video_list.html.twig',[
             //'subcategories' => $categories->getCategoryList($subcategories)
             'subcategories' => $categories,

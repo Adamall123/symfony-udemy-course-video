@@ -19,12 +19,12 @@
                 <div class="dropdown ml-2">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        Subcategories
+                        {{subcategories.currentCategoryName}}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <ul class="mr-5">
                         <li><a href="{{path('video_list',{'categoryname':subcategories.mainParentName|slugify|lower, 'id':subcategories.mainParentId})}}">{{subcategories.mainParentName}}</a></li>
-                           {{subcategories.categorylist|raw}}
+                           {{subcategories.categoryList|raw}}
                         </ul>
                     </div>
                 </div>
