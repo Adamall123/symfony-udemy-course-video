@@ -117,7 +117,11 @@ class AdminController extends AbstractController
      */
     public function users(): Response
     {
-        return $this->render('admin/users.html.twig');
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $users = $repository->findBy([], ['name' => 'ASC']);
+        return $this->render('admin/users.html.twig',[
+            'users' => $users
+        ]);
     }
     /**
      * @Route("/videos", name="videos")
@@ -204,5 +208,16 @@ class AdminController extends AbstractController
 
         session_destroy();
         return $this->redirectToRoute('main_page');
+    }
+
+    /**
+     * @Route("/delete-user/{user}", name="delete_user")
+     */
+    public function deleteUser(User $user): Response
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($user);
+        $manager->flush();
+        return $this->redirectToRoute('users');
     }
 }
