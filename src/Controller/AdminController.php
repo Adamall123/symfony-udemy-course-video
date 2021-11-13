@@ -17,6 +17,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Form\UserType;
 use App\Entity\Video;
 use App\Form\VideoType;
+
+use App\Utils\LocalUploader;
 /**
      * @Route("/admin")
      */
@@ -110,7 +112,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/su/upload-video-locally", name="upload_video")
      */
-    public function uploadVideoLocally(Request $request): Response
+    public function uploadVideoLocally(Request $request, LocalUploader $fileUploader ): Response
     {
         $video = new Video(); 
         $form = $this->createForm(VideoType::class, $video);
@@ -120,11 +122,12 @@ class AdminController extends AbstractController
         {
             $entityManager = $this->getDoctrine()->getManager();
             $file = $video->getUploadedVideo();
-            $fileName = 'to do';
-
+            //$fileName = 'to do';
+            $fileName = $fileUploader->upload($file);
+            
             $base_path = Video::uploadFolder;
-            $video->setPath($base_path.$fileName);
-            $video->setTitle($fileName);
+            $video->setPath($base_path.$fileName[0]);
+            $video->setTitle($fileName[1]);
 
             $entityManager->persist($video);
             $entityManager->flush();

@@ -24,6 +24,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 use App\Controller\Traits\SaveSubscription;
 
+use App\Utils\LocalUploader;
+
 class FrontController extends AbstractController
 {
     use SaveSubscription; 
