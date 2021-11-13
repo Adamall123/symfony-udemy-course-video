@@ -96,7 +96,19 @@ class FrontController extends AbstractController
             $password = $password_encoder->encodePassword($user,$request->request->get('user')['password']['first']);
             $user->setPassword($password);
             $user->setRoles(['ROLE_USER']);
-
+            
+            $date = new \DateTime();
+            $date->modify('+1 month');
+            $subscription = new Subscription();
+            $subscription->setValidTo($date);
+            $subscription->setPlan($session->get('planName'));
+            if($plan == Subscription::getPlanDataNameByIndex(0)) //free plan
+            {
+                $subscription->setFreePlanUsed(true);
+                $subscription->setPaymentStatus('paid');
+            }
+            $user->setSubscription($subscription);
+            
             $entityManager->persist($user);
             $entityManager->flush();
             $this->loginUserAutomatically($user, $password);
