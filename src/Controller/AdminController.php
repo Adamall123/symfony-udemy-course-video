@@ -21,7 +21,7 @@ use App\Form\VideoType;
 
 use App\Utils\Interfaces\UploadInterface;
 
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security; 
 /**
      * @Route("/admin")
      */
@@ -283,6 +283,7 @@ class AdminController extends AbstractController
 
       /**
      * @Route("/delete-comment/{comment}", name="delete_comment")
+     * @Security("user.getId() == comment.getUser().getId()")
      */
     public function deleteComment(Comment $comment, Request $request): Response
     {
