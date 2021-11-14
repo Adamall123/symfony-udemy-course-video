@@ -18,7 +18,8 @@ use Doctrine\ORM\Mapping\Index as Index;
 class Video
 {
     //public const videoForNotLoggedIn = 113716040; //vimeo id
-    public const videoForNotLoggedInOrNoMembers = 113716040;
+    public const videoForNotLoggedInOrNoMembers = 
+    'https://player.vimeo.com/video/113716040';
     public const VimeoPath = 'https://player.vimeo.com/video/';
     public const perPage = 5; //for pagination 
     public const uploadFolder = '/uploads/videos/';
