@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\User;
 use App\Form\CategoryType;
 use App\Utils\CategoryTreeAdminList;
@@ -19,6 +20,8 @@ use App\Entity\Video;
 use App\Form\VideoType;
 
 use App\Utils\Interfaces\UploadInterface;
+
+
 /**
      * @Route("/admin")
      */
@@ -276,5 +279,19 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('videos');
     }
-    
+
+
+      /**
+     * @Route("/delete-comment/{comment}", name="delete_comment")
+     */
+    public function deleteComment(Comment $comment, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        return $this->redirect($request->headers->get('referer'));
+    }
 }
