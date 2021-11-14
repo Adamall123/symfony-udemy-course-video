@@ -12,6 +12,15 @@
 {% endblock %}
 
 {% block main %}
+
+    {% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{label}}" role="alert">
+            {{message}}
+        </div>
+    {% endfor %}
+{% endfor %}
+
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
         <h5 class="my-0 mr-md-auto font-weight-normal">Awesome Videos</h5>
         <a class="nav-link active" href="{{path('main_page')}}"> Go to public site</a>      
