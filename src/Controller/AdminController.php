@@ -152,12 +152,23 @@ class AdminController extends AbstractController
     /**
      * @Route("/videos", name="videos")
      */
-    public function videos(): Response
+    public function videos(CategoryTreeAdminOptionList $categories): Response
     {
-        $repository = $this->getDoctrine()->getRepository(Video::class);
-        $videos = $repository->findBy([], ['title' => 'ASC']);
+        if ($this->isGranted('ROLE_ADMIN')) 
+        {
+
+            $categories->getCategoryList($categories->buildTree());
+            $videos = $this->getDoctrine()->getRepository(Video::class)->findBy([],['title'=>'ASC']);
+            
+        }
+        else
+        {
+            $categories = null;
+            $videos = $this->getUser()->getLikedVideos();
+        }
         return $this->render('admin/videos.html.twig',[
-            'videos' => $videos
+            'videos'=>$videos,
+            'categories'=>$categories
         ]);
     }
     /**
@@ -250,4 +261,20 @@ class AdminController extends AbstractController
         $manager->flush();
         return $this->redirectToRoute('users');
     }
+
+    /**
+     * @Route("/update-video-category/{video}", methods={"POST"}, name="update_video_category")
+     */
+    public function updateVideoCategory(Request $request, Video $video): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $category = $this->getDoctrine()->getRepository(Category::class)->find($request->request->get('video_category'));
+
+        $video->setCategory($category);
+        $entityManager->persist($video);
+        $entityManager->flush(); 
+
+        return $this->redirectToRoute('videos');
+    }
+    
 }
